@@ -1,0 +1,37 @@
+- @title= "Datacenters"
+%p
+= @page_title  = 'All Datacenters'
+- @countries   = Country.all
+= paginate @datacenters
+%table#table
+  %tr
+    %th Code
+    %th Available
+    %th Capacity
+    %th Country
+    %th Created
+    %th Updated
+    %th Delete
+    %th Edit  
+  - @datacenters.each do |datacenter|
+    - if @datacenters.where(:id => datacenter.country_id).exists?
+      - country = @datacenters.where(:id => datacenter.country_id).first
+      - countryname = country.name
+    - else
+      - countryname = ""
+    %tr
+      %td= link_to datacenter.code, :controller=>"datacenters", :action=>"show", :id=>datacenter.id
+      %td= check_box_tag 'Available[]', datacenter.servers_available, :servers_availale => 'Available_#{datacenter.servers_available}', :disabled => true
+      %td= datacenter.servers_capacity
+      %td= countryname
+      %td= datacenter.created_at.strftime('%m/%d/%Y')
+      %td= datacenter.updated_at.strftime('%m/%d/%Y')
+      %td(align='center')
+        - next unless login?
+        - unless current_ma_user.role.upcase.split(',').include?("A")
+          - next unless datacenter.user
+          - next unless current_ma_user == datacenter.user
+        = link_to image_tag('delete.png', style:'border:none; float:none;'), "#", :onclick=>"if (confirm('Please Confirm')) {location.hash='/datacenters/destroy/#{datacenter.id}';}"
+      %td(align='center')
+        = link_to image_tag('pencil.png', style:'border:none; float:none;'), {controller: "jinda", action: "init", s: 'datacenters:edit_datacenter', datacenter_id: datacenter.id}, data: { confirm: "Please Confirm" }
+

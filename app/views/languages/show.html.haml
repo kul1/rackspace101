@@ -1,0 +1,8 @@
+- title @language.name
+- description @language.name
+- keywords @language.name
+
+%div{"data-role" => "menu_mm", "data-theme" => "b", "data-backbtn"=>"false"}
+  #language-name= @language.name
+
+= link_to image_tag('pencil.png', style:'border:none; float:none;'), {controller: "jinda", action: "init", s: 'languages:edit_language', language_id: @language.id}, data: { confirm: "Please Confirm" }

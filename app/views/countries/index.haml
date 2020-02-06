@@ -1,0 +1,27 @@
+- @title= "Counties"
+%p
+- @page_title  = 'All Countries'
+- @languages   = Language.all
+= paginate @countries
+%table#table
+  %tr
+    %th Country
+    %th Language
+    %th Created
+    %th Updated
+    %th Delete
+    %th Edit  
+  - @countries.each do |country|
+    - if @languages.where(:id => country.language_id).exists?
+      - language = @languages.where(:id => country.language_id).first
+      - langname = language.name
+    - else
+      - langname = ""
+    %tr
+      %td= link_to country.name, :controller=>"countries", :action=>"show", :id=>country.id
+      %td= langname
+      %td= country.created_at.strftime('%m/%d/%Y')
+      %td= country.updated_at.strftime('%m/%d/%Y')
+      %td(align='center')= link_to image_tag('delete.png', style:'border:none; float:none;'), "#", :onclick=>"if (confirm('Please Confirm')) {location.hash='/countries/destroy/#{country.id}';}"
+      %td(align='center')= link_to image_tag('pencil.png', style:'border:none; float:none;'), {controller: "jinda", action: "init", s: 'countries:edit_country', country_id: country.id}, data: { confirm: "Please Confirm" }
+

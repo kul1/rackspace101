@@ -1,0 +1,13 @@
+<%
+  if current_ma_user.role.upcase.split(',').include?("A")
+    datacenter = Datacenter.all.desc(:created_at)
+  else
+    datacenter = Datacenter.where(user: current_ma_user).desc(:created_at)
+  end
+%>
+<div class="field" data-role="fieldcontain">
+  <%= label_tag :title, 'Datacenter Select' %>
+  <%= select_tag :code, options_from_collection_for_select(datacenter, :id, :code), "data-native-menu"=>"false" %>
+</div>
+
+

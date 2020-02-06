@@ -1,0 +1,18 @@
+- @title= "Languages"
+%p
+- @page_title  = 'All Languages'
+= paginate @languages
+%table#table
+  %tr
+    %th Language
+    %th Updated
+    %th Delete
+    %th Edit  
+  - @languages.each do |y|
+    %tr
+      %td= link_to y.name, :controller=>"languages", :action=>"show", :id=>y.id
+      %td= y.created_at.strftime('%m/%d/%Y')
+      %td= y.updated_at.strftime('%m/%d/%Y')
+      %td(align='center')= link_to image_tag('delete.png', style:'border:none; float:none;'), "#", :onclick=>"if (confirm('Please Confirm')) {location.hash='/languages/destroy/#{y.id}';}"
+      %td(align='center')= link_to image_tag('pencil.png', style:'border:none; float:none;'), {controller: "jinda", action: "init", s: 'languages:xedit_language', language_id: y.id}, data: { confirm: "Please Confirm" }
+

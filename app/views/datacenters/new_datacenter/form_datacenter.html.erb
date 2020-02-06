@@ -1,0 +1,15 @@
+<%
+    doc = Datacenter.new :issue_on=> Date.today, :process_at => Time.now
+  %>
+<%
+    @countries= Country.all
+%>
+<%= fields_for doc do |f| %>
+  <%= f.label :code, "Code" %>
+  <%= f.text_field :code %><Br>
+  <%= f.label :servers_available, "Servers Available" %>
+  <%= f.check_box :servers_available %><
+  <%= f.label :servers_capacity, "Servers Capacity" %>
+  <%= f.text_field :servers_capacity %><Br>
+  <%= f.collection_select :country_id, @countries, :id, :name, :prompt => "Select a country" %>
+<% end %>

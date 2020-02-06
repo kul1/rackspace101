@@ -1,0 +1,12 @@
+<%
+    doc = Country.new :issue_on=> Date.today, :process_at => Time.now
+  %>
+<%
+    @languages = Language.all
+%>
+<%= fields_for doc do |f| %>
+  <%= f.label :name, "Country Name" %>
+  <%= f.text_field :name %>
+  <%= f.label :language %>
+  <%= f.collection_select :language_id, @languages, :id, :name, :prompt => "Select a language" %>
+<% end %>

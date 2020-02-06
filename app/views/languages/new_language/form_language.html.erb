@@ -1,0 +1,7 @@
+<%
+  doc = Language.new :issue_on=> Date.today, :process_at => Time.now
+%>
+<%= fields_for doc do |f| %>
+  <%= f.label :name, "Name" %>
+  <%= f.text_field :name %>
+<% end %>
